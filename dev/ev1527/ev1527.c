@@ -104,7 +104,7 @@ uint32_t EV1527_decode()
     data=0;
     if(syn_high > 20 && (syn_high*24) < syn_low && syn_low < (syn_high * 38)){ // 31 times, 20% permitted error
         static uint8_t i;
-        for(i=0; i<32; i++){
+        for(i=0; i<24; i++){
             duration = 0;
             while(EV1527_getPinStatus()){
                 delay(1);
