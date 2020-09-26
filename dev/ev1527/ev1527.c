@@ -102,27 +102,28 @@ uint32_t EV1527_decode()
     }
     static uint32_t data=0;
     data=0;
-    if(syn_high > 20 && (syn_high*24) < syn_low && syn_low < (syn_high * 38)){ // 31 times, 20% permitted error
+    if(syn_high > 20 && (syn_high*16) < syn_low && syn_low < (syn_high * 24)){ // 31 times, 20% permitted error
         static uint8_t i;
-        for(i=0; i<32; i++){
+        for(i=0; i<24; i++){
             duration = 0;
             while(EV1527_getPinStatus()){
                 delay(1);
                 duration ++;
             }
-            if(syn_high*2 < duration && duration < syn_high*3.6){
+            if(syn_high*0.8 < duration && duration < syn_high*1.5){
                  data |= 1;
-            }else if(syn_high*0.8 > duration || duration > syn_high*3.6){
-                GPIO_WriteLow(GPIOD,GPIO_PIN_3);
-                duration = 0;
-                return 0;
             }
+//            else if(syn_high*0.8 > duration || duration > syn_high*3.6){
+//                GPIO_WriteLow(GPIOD,GPIO_PIN_3);
+//                duration = 0;
+//                return 0;
+//            }
             data <<= 1;
             while(!EV1527_getPinStatus());
         }
-        if(data == 0xDDA1EEC || data == 0x2DC25E96){
+//        if(data == 0xDDA1EEC || data == 0x2DC25E96){
             GPIO_WriteReverse(GPIOB,GPIO_PIN_5);
-        }
+//        }
         GPIO_WriteLow(GPIOD,GPIO_PIN_3);
         
         return data;
