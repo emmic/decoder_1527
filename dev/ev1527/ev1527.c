@@ -35,10 +35,8 @@ uint8_t EV1527_getPinStatus()
     static uint8_t tmp=0;
     tmp = GPIO_ReadInputData(EV1527_DATA_GPIO) & EV1527_DATA_PIN;
     if(tmp == 0){
-
         return 0;
     }else{
-
         return 1;
     }
     
@@ -81,20 +79,19 @@ static uint8_t readBit()
  */
 uint32_t EV1527_decode()
 {
-    static uint32_t syn_high = 0; // high status duration
-    static uint32_t syn_low = 0;  // low  status duration
-    static uint32_t duration = 0;
+    static uint16_t syn_high = 0; // high status duration
+    static uint16_t syn_low = 0;  // low  status duration
+    static uint16_t duration = 0;
     syn_high = 0;
     syn_low = 0;
     duration = 0;
+
     
-        
-                
-    GPIO_WriteHigh(GPIOD,GPIO_PIN_3); 
     
     while(EV1527_getPinStatus()){
         syn_high ++;
         delay(1);
+        
     }
     while(!EV1527_getPinStatus()){
         syn_low ++;  
@@ -102,7 +99,22 @@ uint32_t EV1527_decode()
     }
     static uint32_t data=0;
     data=0;
-    if(syn_high > 20 && (syn_high*16) < syn_low && syn_low < (syn_high * 24)){ // 31 times, 20% permitted error
+    
+    if(syn_high <= 5 || syn_low <= 50){
+        return 0;
+    }
+
+    if(syn_low <= syn_high*20 )
+        return 0;
+    uint16_t t1 = syn_high >> 1;
+    if(syn_low >= syn_high*35 ){
+        duration = 0;
+        return 0;
+    }
+        
+    
+    if(1){ // 31 times, 20% permitted error
+
         static uint8_t i;
         for(i=0; i<24; i++){
             duration = 0;
@@ -110,21 +122,18 @@ uint32_t EV1527_decode()
                 delay(1);
                 duration ++;
             }
-            if(syn_high*0.8 < duration && duration < syn_high*1.5){
+            if(t1 < duration && duration < (syn_high<<1)){
                  data |= 1;
+            }else if(t1 > duration || duration > (syn_high<<2)){
+                duration = 0;
+                return 0;
             }
-//            else if(syn_high*0.8 > duration || duration > syn_high*3.6){
-//                GPIO_WriteLow(GPIOD,GPIO_PIN_3);
-//                duration = 0;
-//                return 0;
-//            }
             data <<= 1;
             while(!EV1527_getPinStatus());
         }
-//        if(data == 0xDDA1EEC || data == 0x2DC25E96){
+        if(data == 0x01DAAA1E || data == 0x12DC25E || data == 0x018F9A8E){
             GPIO_WriteReverse(GPIOB,GPIO_PIN_5);
-//        }
-        GPIO_WriteLow(GPIOD,GPIO_PIN_3);
+        }
         
         return data;
     }
