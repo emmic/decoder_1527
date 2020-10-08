@@ -1,8 +1,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm8s.h"
-#include "ev1527.h"
-//#include "stm8s_gpio.h"
+//#include "ev1527.h"
+#include "rx10.h"
+#include "stm8s_gpio.h"
 #include "delay.h"
 //
 #define LED_GPIO_PORT  (GPIOB)
@@ -24,11 +25,14 @@ void main(void)
     }
 */
     enableInterrupts();
-    EV1527_init();
+    RX10_init();
 
-    
+    static uint32_t data;
     while(1){
-        EV1527_decode();
+        data = RX10_readData();
+        if(data == 0x00706570){
+            GPIO_WriteReverse(GPIOB,GPIO_PIN_5);
+        }
     }
    
 }

@@ -71,6 +71,8 @@ static uint8_t readBit()
         low ++;        
     }    
 }
+
+#define  PERMITTED_ERROR 0.2
 /*!
  * \Name  : EV1527_decode
  * \Brief : -
@@ -113,7 +115,7 @@ uint32_t EV1527_decode()
     }
         
     
-    if(1){ // 31 times, 20% permitted error
+    if(1){
 
         static uint8_t i;
         for(i=0; i<24; i++){

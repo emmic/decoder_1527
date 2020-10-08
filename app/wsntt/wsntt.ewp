@@ -138,7 +138,7 @@
         </option>
         <option>
           <name>IccOptLevel</name>
-          <state>2</state>
+          <state>0</state>
         </option>
         <option>
           <name>IccOptStrategy</name>
@@ -147,12 +147,12 @@
         </option>
         <option>
           <name>IccOptLevelSlave</name>
-          <state>2</state>
+          <state>0</state>
         </option>
         <option>
           <name>IccOptAllowList</name>
           <version>0</version>
-          <state>100100</state>
+          <state>000000</state>
         </option>
         <option>
           <name>IccGenerateDebugInfo</name>
@@ -255,6 +255,7 @@
           <state>$PROJ_DIR$\..\..\mcu\stm8s\inc</state>
           <state>$PROJ_DIR$\..\..\dev\hw3000\</state>
           <state>$PROJ_DIR$\..\..\dev\ev1527\</state>
+          <state>$PROJ_DIR$\..\..\dev\rx10\</state>
           <state>$PROJ_DIR$\..\..\util\delay\</state>
         </option>
         <option>
@@ -1603,6 +1604,12 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\dev\ev1527\ev1527.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\dev\rx10\rx10.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\dev\rx10\rx10.h</name>
     </file>
   </group>
   <group>
