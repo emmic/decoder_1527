@@ -15,9 +15,9 @@
 
 #define  ACCEPTABLE_ERROR  0.3         // acceptable margin of error [0 ~ 0.99]
  
-#define  RATIO_SYNC        28        // The ratio of high level and low level
-//#define  RATIO_DATA0       2.7       // The ratio of low level and high level
-#define  RATIO_DATA1       3.3       // The ratio of low level and high level
+#define  RATIO_SYNC        29        // The ratio of high level and low level
+#define  RATIO_DATA0       1         // The ratio of high level and low level
+#define  RATIO_DATA1       3.3       // The ratio of high level and low level
 
 #define  NOISE_THRESHOLD   10           // filtrate the high level noise under this threshold and 
                                        // low level noise under NOISE_THRESHOLD*RATIO_SYNC

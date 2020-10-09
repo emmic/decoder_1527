@@ -59,7 +59,7 @@ uint32_t RX10_readData()
         if(syn_low == 0){
             // multiply calculation costs a lot of time, use it as a short delay
             d0_min_high = syn_high - (uint16_t)(syn_high * ACCEPTABLE_ERROR);
-            judge_thre = (uint16_t)(syn_high * ((RATIO_DATA1-1)/2+1));
+            judge_thre = (uint16_t)(syn_high * ((RATIO_DATA1-RATIO_DATA0)/2+1));
             d1_max_high = (uint16_t)(syn_high * RATIO_DATA1 * (1+ACCEPTABLE_ERROR));
             syn_low += 15;
         }else{

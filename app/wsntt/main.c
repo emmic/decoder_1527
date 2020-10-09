@@ -30,8 +30,10 @@ void main(void)
     static uint32_t data;
     while(1){
         data = RX10_readData();
-        if(data == 0x00706570){
-            GPIO_WriteReverse(GPIOB,GPIO_PIN_5);
+        if(data == 0x00706570 || data == 0x012DC25E){
+            GPIO_WriteHigh(GPIOB,GPIO_PIN_5);
+            delay_ms(400);
+            GPIO_WriteLow(GPIOB,GPIO_PIN_5);
         }
     }
    
